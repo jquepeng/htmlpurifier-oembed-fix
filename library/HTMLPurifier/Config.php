@@ -155,6 +155,15 @@ class HTMLPurifier_Config
     {
         $definition = HTMLPurifier_ConfigSchema::instance();
         $config = new HTMLPurifier_Config($definition);
+
+        $config->set('HTML.SafeOembed', true);
+
+        // Add the custom Oembed module automatically
+        if ($def = $config->maybeGetRawHTMLDefinition()) {
+            require_once __DIR__ . '/../HTMLModule/Oembed.php';
+            $def->manager->addModule('Oembed');
+        }
+
         return $config;
     }
 
